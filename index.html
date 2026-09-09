@@ -1,0 +1,2576 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ZYANIX Digital Media Club</title>
+
+    <meta
+        name="description"
+        content="ZYANIX Digital Media Club — Create. Learn. Lead. Build the Future."
+    >
+
+    <style>
+        /* =========================================================
+           ZYANIX DIGITAL MEDIA CLUB
+           FRONT-END ONLY — VERSION 1
+           ========================================================= */
+
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg: #050505;
+            --bg-soft: #0b0b0b;
+            --card: #101010;
+            --card-hover: #151515;
+
+            --text: #f5f5f5;
+            --muted: #9b9b9b;
+
+            --orange: #ff5a1f;
+            --orange-light: #ff713d;
+
+            --border: rgba(255,255,255,0.08);
+
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+
+            --max-width: 1200px;
+            --brand-font: "Zyanix Futura", "Futura Md BT", "Futura", sans-serif;
+        }
+
+        /* Bundled with the site so the brand type renders on every device. */
+        @font-face {
+            font-family: "Zyanix Futura";
+            src: url("assets/futuramdbt_bold.otf?v=2") format("opentype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Zyanix Futura";
+            src: url("assets/futuramdbt_bold.otf?v=2") format("opentype");
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* =========================================================
+           BACKGROUND
+           ========================================================= */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(255, 90, 31, 0.14),
+                    transparent 35%
+                );
+
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,0.018) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.018) 1px,
+                    transparent 1px
+                );
+
+            background-size: 42px 42px;
+            mask-image: linear-gradient(
+                to bottom,
+                black,
+                transparent 75%
+            );
+
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* =========================================================
+           CONTAINER
+           ========================================================= */
+
+        .container {
+            width: min(
+                calc(100% - 40px),
+                var(--max-width)
+            );
+
+            margin: auto;
+        }
+
+        /* =========================================================
+           NAVBAR
+           ========================================================= */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            z-index: 1000;
+
+            background: rgba(5,5,5,0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .nav-inner {
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-family: var(--brand-font);
+            font-weight: 700;
+            letter-spacing: -0.6px;
+        }
+
+        .logo-badge {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            border: 1px solid var(--orange);
+            border-radius: 50%;
+            background: #050505;
+        }
+
+        .logo-mark {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: scale(1.8);
+        }
+
+        .logo-text {
+            font-size: 18px;
+        }
+
+        .logo-text span {
+            color: var(--orange);
+        }
+
+        .logo-wordmark,
+        .hero-wordmark {
+            display: block;
+            object-fit: contain;
+            mix-blend-mode: screen;
+        }
+
+        .logo-wordmark {
+            width: 130px;
+            height: 26px;
+        }
+
+        .logo-subtitle {
+            color: var(--orange);
+            font-family: var(--brand-font);
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .brand-a {
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .nav-links a {
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-register {
+            padding: 11px 17px;
+
+            border-radius: 999px;
+
+            background: white;
+            color: black;
+
+            font-weight: 600;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .nav-register:hover {
+            transform: translateY(-2px);
+            background: var(--orange);
+            color: white;
+        }
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .hero {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .event-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+
+            border: 1px solid rgba(255,90,31,0.28);
+
+            border-radius: 999px;
+
+            background: rgba(255,90,31,0.07);
+
+            color: #ff9a74;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 28px;
+        }
+
+        .hero-logo {
+            display: block;
+            width: 82px;
+            height: 68px;
+            margin: 0 0 20px;
+            object-fit: contain;
+        }
+
+        .hero-brand-name {
+            margin: -12px 0 24px;
+            color: white;
+            font-family: var(--brand-font);
+            font-size: clamp(25px, 4vw, 38px);
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+
+        .hero-brand-name span {
+            color: var(--orange);
+        }
+
+        .hero-wordmark {
+            width: 180px;
+            height: 35px;
+            margin: -12px 0 24px;
+        }
+
+        .pulse {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--orange);
+
+            box-shadow: 0 0 12px var(--orange);
+        }
+
+        .hero h1 {
+            font-family: var(--brand-font);
+            font-weight: 700;
+
+            font-size: clamp(
+                52px,
+                9vw,
+                108px
+            );
+
+            line-height: 0.92;
+
+            letter-spacing: -5px;
+
+            max-width: 1000px;
+
+            margin-bottom: 28px;
+        }
+
+        .hero h1 .orange {
+            color: var(--orange);
+        }
+
+        .hero-description {
+            max-width: 690px;
+
+            font-size: 19px;
+            line-height: 1.7;
+
+            color: var(--muted);
+
+            margin-bottom: 34px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+
+            margin-bottom: 55px;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 48px;
+
+            padding: 0 20px;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: white;
+            border: 1px solid var(--orange);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: var(--orange-light);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.18);
+        }
+
+        .hero-meta {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            max-width: 700px;
+
+            border-top: 1px solid var(--border);
+
+            padding-top: 26px;
+        }
+
+        .meta-item {
+            padding-right: 25px;
+        }
+
+        .meta-item:not(:first-child) {
+            padding-left: 25px;
+            border-left: 1px solid var(--border);
+        }
+
+        .meta-label {
+            color: #707070;
+
+            font-size: 11px;
+            text-transform: uppercase;
+
+            letter-spacing: 1.4px;
+
+            margin-bottom: 8px;
+        }
+
+        .meta-value {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           SECTION
+           ========================================================= */
+
+        section {
+            padding: 110px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 55px;
+        }
+
+        .eyebrow {
+            color: var(--orange);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: clamp(
+                38px,
+                5vw,
+                64px
+            );
+
+            line-height: 1;
+
+            letter-spacing: -2.5px;
+
+            max-width: 700px;
+        }
+
+        .section-description {
+            margin-top: 20px;
+
+            max-width: 640px;
+
+            font-size: 16px;
+            line-height: 1.7;
+
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           EVENT HIGHLIGHTS
+           ========================================================= */
+
+        .highlight-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 16px;
+        }
+
+        .highlight-card {
+            padding: 28px;
+
+            min-height: 230px;
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.045),
+                    rgba(255,255,255,0.015)
+                );
+
+            position: relative;
+            overflow: hidden;
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .highlight-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            right: -75px;
+            top: -75px;
+
+            background: var(--orange);
+
+            opacity: 0.08;
+
+            border-radius: 50%;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,90,31,0.28);
+        }
+
+        .highlight-number {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: 14px;
+
+            color: var(--orange);
+
+            margin-bottom: 48px;
+        }
+
+        .highlight-card h3 {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: 24px;
+
+            margin-bottom: 10px;
+        }
+
+        .highlight-card p {
+            color: var(--muted);
+
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           AGENDA
+           ========================================================= */
+
+        .agenda {
+            border-top: 1px solid var(--border);
+        }
+
+        .agenda-row {
+            display: grid;
+
+            grid-template-columns:
+                180px
+                1fr;
+
+            gap: 30px;
+
+            padding: 24px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .agenda-time {
+            color: var(--orange);
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .agenda-content h3 {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: 20px;
+
+            margin-bottom: 7px;
+        }
+
+        .agenda-content p {
+            color: var(--muted);
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           CREATIVE CHALLENGE
+           ========================================================= */
+
+        .challenge {
+            position: relative;
+        }
+
+        .challenge-box {
+            padding: 55px;
+
+            border-radius: 30px;
+
+            background:
+                radial-gradient(
+                    circle at 85% 10%,
+                    rgba(255,90,31,0.18),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    140deg,
+                    #141414,
+                    #090909
+                );
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+        .challenge-box::after {
+            content: "CREATIVE";
+
+            position: absolute;
+
+            right: -20px;
+            bottom: -35px;
+
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: 130px;
+            font-weight: 700;
+
+            color: rgba(255,255,255,0.025);
+
+            pointer-events: none;
+        }
+
+        .challenge-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.2fr
+                1fr;
+
+            gap: 60px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .challenge-title {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: clamp(
+                40px,
+                6vw,
+                72px
+            );
+
+            letter-spacing: -3px;
+
+            line-height: 0.95;
+
+            margin-bottom: 22px;
+        }
+
+        .challenge-title span {
+            color: var(--orange);
+        }
+
+        .challenge-copy {
+            color: var(--muted);
+
+            max-width: 560px;
+
+            line-height: 1.7;
+
+            margin-bottom: 28px;
+        }
+
+        .challenge-info {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+        }
+
+        .challenge-option {
+            padding: 22px;
+
+            border-radius: 16px;
+
+            background: rgba(255,255,255,0.035);
+
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .challenge-option span {
+            display: block;
+
+            color: var(--orange);
+
+            font-size: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        .challenge-option strong {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: 18px;
+        }
+
+        .challenge-side {
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+
+            gap: 12px;
+        }
+
+        .challenge-instructions {
+            padding: 4px 6px 10px;
+        }
+
+        .challenge-instructions h3 {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+            color: var(--orange);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .challenge-instructions p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .challenge-stat {
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background: rgba(0,0,0,0.30);
+
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .challenge-stat small {
+            display: block;
+
+            color: #777;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            margin-bottom: 7px;
+        }
+
+        .challenge-stat strong {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: 24px;
+        }
+
+        /* =========================================================
+           ABOUT / OBJECTIVE
+           ========================================================= */
+
+        .objective-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 80px;
+
+            align-items: center;
+        }
+
+        .objective-text {
+            color: var(--muted);
+
+            font-size: 18px;
+
+            line-height: 1.8;
+        }
+
+        .objective-quote {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: clamp(
+                34px,
+                4vw,
+                58px
+            );
+
+            line-height: 1;
+
+            letter-spacing: -2px;
+        }
+
+        .objective-quote span {
+            color: var(--orange);
+        }
+
+        /* =========================================================
+           REGISTER CTA
+           ========================================================= */
+
+        .register-section {
+            padding-bottom: 130px;
+        }
+
+        .register-box {
+            text-align: center;
+
+            padding: 85px 30px;
+
+            border-radius: 30px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(255,90,31,0.12),
+                    transparent 45%
+                );
+
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .register-box h2 {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-size: clamp(
+                45px,
+                6vw,
+                75px
+            );
+
+            letter-spacing: -3px;
+
+            margin-bottom: 16px;
+        }
+
+        .register-box p {
+            max-width: 560px;
+
+            margin: 0 auto 28px;
+
+            color: var(--muted);
+
+            line-height: 1.7;
+        }
+
+        .registration-form {
+            max-width: 720px;
+            margin: 38px auto 0;
+            text-align: left;
+        }
+
+        .event-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .event-tab {
+            min-height: 52px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            color: var(--muted);
+            cursor: pointer;
+            font-weight: 700;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .event-tab.is-active {
+            border-color: var(--orange);
+            background: var(--orange);
+            color: white;
+        }
+
+        .event-tab-primary {
+            grid-column: 1 / -1;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-field[hidden] {
+            display: none;
+        }
+
+        .form-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-field label {
+            color: #d2d2d2;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            min-height: 52px;
+            padding: 0 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: rgba(0,0,0,0.28);
+            color: white;
+            font: inherit;
+        }
+
+        .form-field select {
+            appearance: none;
+            -webkit-appearance: none;
+            color-scheme: dark;
+            padding-right: 48px;
+            background-image:
+                linear-gradient(45deg, transparent 50%, var(--orange) 50%),
+                linear-gradient(135deg, var(--orange) 50%, transparent 50%);
+            background-position:
+                calc(100% - 22px) 22px,
+                calc(100% - 16px) 22px;
+            background-size: 6px 6px, 6px 6px;
+            background-repeat: no-repeat;
+        }
+
+        .form-field select option {
+            background: var(--card);
+            color: var(--text);
+        }
+
+        .custom-select {
+            position: relative;
+        }
+
+        .custom-select-trigger {
+            width: 100%;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(0,0,0,0.28);
+            color: white;
+            cursor: pointer;
+            font: inherit;
+            text-align: left;
+        }
+
+        .custom-select-trigger:hover,
+        .custom-select.is-open .custom-select-trigger {
+            border-color: var(--orange);
+        }
+
+        .custom-select.is-open .custom-select-trigger {
+            box-shadow: 0 0 0 3px rgba(255,90,31,0.14);
+        }
+
+        .custom-select-arrow {
+            width: 9px;
+            height: 9px;
+            border-right: 2px solid var(--orange);
+            border-bottom: 2px solid var(--orange);
+            transform: rotate(45deg) translateY(-3px);
+            transition: transform 0.2s ease;
+        }
+
+        .custom-select.is-open .custom-select-arrow {
+            transform: rotate(225deg) translateY(-2px);
+        }
+
+        .custom-select-options {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            z-index: 20;
+            overflow: hidden;
+            border: 1px solid rgba(255,90,31,0.65);
+            border-radius: 14px;
+            background: #111;
+            box-shadow: 0 16px 32px rgba(0,0,0,0.42);
+        }
+
+        .custom-select-options[hidden] {
+            display: none;
+        }
+
+        .custom-select-option {
+            width: 100%;
+            padding: 15px;
+            border: 0;
+            border-bottom: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            font: inherit;
+            text-align: left;
+        }
+
+        .custom-select-option:last-child {
+            border-bottom: 0;
+        }
+
+        .custom-select-option:hover,
+        .custom-select-option.is-selected {
+            background: rgba(255,90,31,0.14);
+            color: #ff9a74;
+        }
+
+        .form-field input::placeholder {
+            color: #666;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(255,90,31,0.14);
+        }
+
+        .form-submit {
+            width: 100%;
+            margin-top: 24px;
+        }
+
+        .registration-message {
+            display: none;
+            margin: 16px 0 0;
+            color: #ff9a74;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .registration-message.is-visible {
+            display: block;
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        footer {
+            border-top: 1px solid var(--border);
+
+            padding: 32px 0;
+        }
+
+        .footer-inner {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .footer-brand {
+            font-family: "Futura Md BT", "Futura", sans-serif;
+
+            font-weight: 700;
+        }
+
+        .footer-brand span {
+            color: var(--orange);
+        }
+
+        .footer-note {
+            color: #666;
+
+            font-size: 13px;
+        }
+
+        .mobile-register {
+            display: none;
+        }
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 850px) {
+
+            body {
+                padding-bottom: 78px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+
+                padding-top: 120px;
+                padding-bottom: 54px;
+            }
+
+            .hero h1 {
+                font-size: clamp(
+                    52px,
+                    16vw,
+                    88px
+                );
+
+                letter-spacing: -3px;
+            }
+
+            .slogan-row {
+                white-space: nowrap;
+            }
+
+            .slogan-lead {
+                display: block;
+            }
+
+            .hero-logo {
+                width: 400px;
+                max-width: calc(100vw - 8px);
+                height: 330px;
+                margin-top: -70px;
+                margin-bottom: 2px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+
+            .hero-brand-name {
+                margin: -24px auto 22px;
+            }
+
+            .hero-wordmark {
+                margin: -70px auto 18px;
+                transform: translateY(-18px);
+            }
+
+            .hero-description {
+                font-size: 17px;
+                line-height: 1.6;
+                margin-bottom: 26px;
+            }
+
+            .hero-content,
+            .section-heading,
+            .objective-grid,
+            .challenge-box,
+            .register-box,
+            .footer-inner {
+                text-align: center;
+            }
+
+            .hero-actions {
+                margin-bottom: 38px;
+                justify-content: center;
+            }
+
+            .hero-meta {
+                grid-template-columns:
+                    1fr;
+
+                gap: 18px;
+            }
+
+            .meta-item:not(:first-child) {
+                padding: 16px 18px;
+                border: 1px solid var(--border);
+            }
+
+            .meta-item {
+                padding: 16px 18px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+                background: rgba(255,255,255,0.025);
+            }
+
+            .hero-meta {
+                border-top: 0;
+                padding-top: 0;
+                text-align: center;
+            }
+
+            .highlight-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .agenda-row {
+                grid-template-columns:
+                    1fr;
+
+                gap: 8px;
+                padding: 20px 0;
+            }
+
+            .agenda-content h3 {
+                font-size: 18px;
+            }
+
+            .agenda-row,
+            .challenge-side,
+            .challenge-info {
+                text-align: center;
+            }
+
+            .challenge-box {
+                padding: 30px 22px;
+            }
+
+            .challenge-grid {
+                grid-template-columns:
+                    1fr;
+
+                gap: 30px;
+            }
+
+            .challenge-info {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .objective-grid {
+                grid-template-columns:
+                    1fr;
+
+                gap: 35px;
+            }
+
+            section {
+                padding: 64px 0;
+            }
+
+            .section-heading {
+                margin-bottom: 34px;
+            }
+
+            .highlight-card {
+                min-height: 0;
+                padding: 24px;
+                text-align: center;
+            }
+
+            .highlight-number {
+                margin-bottom: 32px;
+            }
+
+            .register-section {
+                padding-bottom: 64px;
+            }
+
+            .registration-form {
+                text-align: left;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mobile-register {
+                position: fixed;
+                left: 14px;
+                right: 14px;
+                bottom: 14px;
+                z-index: 1100;
+                min-height: 54px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 20px;
+                border-radius: 14px;
+                background: var(--orange);
+                box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+                color: white;
+                font-size: 15px;
+                font-weight: 700;
+            }
+
+            .mobile-register span {
+                font-size: 23px;
+                line-height: 1;
+            }
+        }
+
+        /* =========================================================
+           SMALL MOBILE
+           ========================================================= */
+
+        @media (max-width: 600px) {
+
+            .hero h1 {
+                font-size: clamp(42px, 12.5vw, 50px);
+                letter-spacing: -4px;
+            }
+
+            .slogan-row {
+                letter-spacing: 1.5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .container {
+                width: min(
+                    calc(100% - 16px),
+                    var(--max-width)
+                );
+            }
+
+            .nav-inner {
+                height: 68px;
+            }
+
+            .logo-text {
+                font-size: 16px;
+            }
+
+            .logo-wordmark {
+                width: 100px;
+                height: 24px;
+            }
+
+            .logo-subtitle {
+                font-size: 14px;
+            }
+
+            .logo {
+                gap: 5px;
+            }
+
+            .logo-badge {
+                width: 56px;
+                height: 56px;
+            }
+
+            .hero h1 {
+                font-size: clamp(42px, 12.5vw, 50px);
+                line-height: 0.96;
+                letter-spacing: -3.5px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                min-height: 54px;
+            }
+
+            .event-pill {
+                margin-bottom: 22px;
+            }
+
+            .section-title {
+                font-size: clamp(34px, 10vw, 46px);
+                letter-spacing: -1.5px;
+            }
+
+            .challenge-title,
+            .register-box h2 {
+                letter-spacing: -2px;
+            }
+
+            .register-box {
+                padding: 65px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .event-tabs {
+                gap: 8px;
+            }
+
+            .event-tab {
+                min-height: 58px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         NAVIGATION
+         ========================================================= -->
+
+    <header class="navbar">
+        <div class="container nav-inner">
+
+            <a href="#" class="logo">
+
+                <span class="logo-badge">
+                    <img class="logo-mark" src="assets/ZYANIX.svg" alt="Zyanix">
+                </span>
+
+                <img class="logo-wordmark" src="assets/zyanix-wordmark.png" alt="Zyanix">
+                <span class="logo-subtitle">Digital Media</span>
+
+            </a>
+
+            <nav class="nav-links">
+
+                <a href="#about">
+                    About
+                </a>
+
+                <a href="#agenda">
+                    Agenda
+                </a>
+
+                <a href="#challenge">
+                    Challenge
+                </a>
+
+                <a
+                    href="#register"
+                    class="nav-register"
+                >
+                    Register
+                </a>
+
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- =========================================================
+         HERO
+         ========================================================= -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="container">
+
+                <div class="hero-content">
+
+                    <img class="hero-logo" src="assets/ZYANIX.svg" alt="Zyanix logo">
+
+                    <img class="hero-wordmark" src="assets/zyanix-wordmark.png" alt="Zyanix">
+
+                    <div class="event-pill">
+
+                        <span class="pulse"></span>
+
+                        Inauguration · 14 September 2026
+
+                    </div>
+
+                    <h1>
+
+                        <span class="slogan-row">
+                            Create.
+
+                            <span class="orange">
+                                Learn.
+                            </span>
+                        </span>
+
+                        <span class="slogan-lead">Lead.</span>
+
+                    </h1>
+
+
+                    <p class="hero-description">
+
+                        Welcome to the ZYANIX Digital Media Club —
+                        a student-driven creative initiative built to
+                        explore digital media, creative technology,
+                        design and real-world skills.
+
+                    </p>
+
+
+                    <div class="hero-actions">
+
+                        <a
+                            href="#register"
+                            class="btn btn-primary"
+                        >
+                            Register for the Event
+                            →
+                        </a>
+
+                        <a
+                            href="#agenda"
+                            class="btn btn-secondary"
+                        >
+                            View Programme
+                        </a>
+
+                    </div>
+
+
+                    <div class="hero-meta">
+
+                        <div class="meta-item">
+
+                            <div class="meta-label">
+                                Date
+                            </div>
+
+                            <div class="meta-value">
+                                14 September 2026
+                            </div>
+
+                        </div>
+
+
+                        <div class="meta-item">
+
+                            <div class="meta-label">
+                                Time
+                            </div>
+
+                            <div class="meta-value">
+                                9:30 AM — 2:15 PM
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ABOUT
+             ===================================================== -->
+
+        <section id="about">
+
+            <div class="container">
+
+                <div class="objective-grid">
+
+                    <div>
+
+                        <div class="eyebrow">
+                            The Initiative
+                        </div>
+
+                        <h2 class="section-title">
+                            More than a club.
+                            A creative
+                            community.
+                        </h2>
+
+                    </div>
+
+
+                    <div>
+
+                        <p class="objective-text">
+
+                            ZYANIX Digital Media Club is being
+                            introduced as a platform for students
+                            to discover, learn and experiment with
+                            digital media.
+
+                            <br><br>
+
+                            The inauguration brings together
+                            technology, creativity and practical
+                            experience through an expert webinar
+                            and a hands-on creative challenge.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             HIGHLIGHTS
+             ===================================================== -->
+
+        <section>
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div class="eyebrow">
+                        What's happening
+                    </div>
+
+                    <h2 class="section-title">
+                        One day.
+                        Three creative
+                        experiences.
+                    </h2>
+
+                </div>
+
+
+                <div class="highlight-grid">
+
+                    <article class="highlight-card">
+
+                        <div class="highlight-number">
+                            01 / INAUGURATION
+                        </div>
+
+                        <h3>
+                            Official Launch
+                        </h3>
+
+                        <p>
+                            The formal introduction of
+                            ZYANIX Digital Media Club and
+                            the launch of its official website.
+                        </p>
+
+                    </article>
+
+
+                    <article class="highlight-card">
+
+                        <div class="highlight-number">
+                            02 / WEBINAR
+                        </div>
+
+                        <h3>
+                            Creative Media
+                        </h3>
+
+                        <p>
+                            An interactive session exploring
+                            the initiative, opportunities and
+                            practical creative skills.
+                        </p>
+
+                    </article>
+
+
+                    <article class="highlight-card">
+
+                        <div class="highlight-number">
+                            03 / CHALLENGE
+                        </div>
+
+                        <h3>
+                            Create Under Pressure
+                        </h3>
+
+                        <p>
+                            Choose Video Editing or Poster
+                            Designing and turn an idea into
+                            a finished creative work.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             AGENDA
+             ===================================================== -->
+
+        <section id="agenda">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div class="eyebrow">
+                        Programme
+                    </div>
+
+                    <h2 class="section-title">
+                        The day,
+                        structured.
+                    </h2>
+
+                    <p class="section-description">
+                        From the opening prayer to the final
+                        certificate, here's everything planned
+                        for the inauguration.
+                    </p>
+
+                </div>
+
+
+                <div class="agenda">
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            9:30 — 9:40
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Prayer Song
+                            </h3>
+
+                            <p>
+                                Opening prayer and commencement
+                                of the programme.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            9:40 — 9:50
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Welcome & Introduction
+                            </h3>
+
+                            <p>
+                                Welcome address and introduction
+                                to ZYANIX Digital Media Club.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            9:50 — 10:00
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Principal's Speech
+                            </h3>
+
+                            <p>
+                                Address by the Principal.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            10:00 — 10:10
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Reserved Guest's Speech
+                            </h3>
+
+                            <p>
+                                Address by the invited guest.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            10:10 — 10:25
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Official Website Launch
+                            </h3>
+
+                            <p>
+                                Formal launch and brief
+                                presentation of the ZYANIX
+                                Digital Media Club website.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            10:25 — 11:05
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Webinar — The Initiative & Creative Media
+                            </h3>
+
+                            <p>
+                                Interactive webinar introducing
+                                the initiative, opportunities and
+                                practical creative skills.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            11:05 — 12:00
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                🎯 Zyanix Creative Challenge
+                            </h3>
+
+                            <p>
+                                Round 1 — participants choose
+                                Video Editing or Poster Designing
+                                and begin the task.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            12:00 — 12:45
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Lunch Break
+                            </h3>
+
+                            <p>
+                                Lunch and informal interaction.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            12:45 — 1:00
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                🎯 Creative Challenge — Round 2
+                            </h3>
+
+                            <p>
+                                Participants continue,
+                                finalise and submit their work.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            1:00 — 1:30
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Feedback & Improvement Session
+                            </h3>
+
+                            <p>
+                                Selected works are reviewed
+                                with practical feedback and
+                                professional creative tips.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            1:30 — 1:50
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                🏆 Prize & Certificate Distribution
+                            </h3>
+
+                            <p>
+                                Recognition of outstanding
+                                submissions and certificate
+                                distribution.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="agenda-row">
+
+                        <div class="agenda-time">
+                            1:50 — 2:00
+                        </div>
+
+                        <div class="agenda-content">
+
+                            <h3>
+                                Vote of Thanks & Closing
+                            </h3>
+
+                            <p>
+                                Vote of thanks and formal
+                                conclusion of the programme.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CREATIVE CHALLENGE
+             ===================================================== -->
+
+        <section
+            id="challenge"
+            class="challenge"
+        >
+
+            <div class="container">
+
+                <div class="challenge-box">
+
+                    <div class="challenge-grid">
+
+                        <div>
+
+                            <div class="eyebrow">
+                                ZYANIX Creative Challenge
+                            </div>
+
+                            <h2 class="challenge-title">
+                                Make something
+                                <span>
+                                    worth seeing.
+                                </span>
+                            </h2>
+
+                            <p class="challenge-copy">
+
+                                A practical creative challenge
+                                designed to test creativity,
+                                originality, technical execution,
+                                visual quality and completion.
+
+                            </p>
+
+
+                            <div class="challenge-info">
+
+                                <div class="challenge-option">
+
+                                    <span>
+                                        CATEGORY 01
+                                    </span>
+
+                                    <strong>
+                                        Video Editing
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="challenge-option">
+
+                                    <span>
+                                        CATEGORY 02
+                                    </span>
+
+                                    <strong>
+                                        Poster Designing
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="challenge-side">
+
+                            <div class="challenge-instructions">
+
+                                <h3>Challenge Instructions</h3>
+
+                                <p>
+                                    Choose a category, create your work,
+                                    and submit it before the final deadline.
+                                </p>
+
+                            </div>
+
+                            <div class="challenge-stat">
+
+                                <small>
+                                    Challenge Starts
+                                </small>
+
+                                <strong>
+                                    11:05 AM
+                                </strong>
+
+                            </div>
+
+
+                            <div class="challenge-stat">
+
+                                <small>
+                                    Lunch Break
+                                </small>
+
+                                <strong>
+                                    12:00 — 12:45
+                                </strong>
+
+                            </div>
+
+
+                            <div class="challenge-stat">
+
+                                <small>
+                                    Final Submission
+                                </small>
+
+                                <strong>
+                                    1:00 PM
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             OBJECTIVE
+             ===================================================== -->
+
+        <section>
+
+            <div class="container">
+
+                <div class="objective-grid">
+
+                    <div>
+
+                        <div class="eyebrow">
+                            Our Philosophy
+                        </div>
+
+                        <h2 class="objective-quote">
+
+                            Don't just consume
+                            <span>
+                                digital media.
+                            </span>
+
+                            Create it.
+
+                        </h2>
+
+                    </div>
+
+
+                    <div>
+
+                        <p class="objective-text">
+
+                            The ZYANIX Digital Media Club aims to
+                            create an environment where students
+                            can experiment, collaborate and build
+                            practical creative skills.
+
+                            <br><br>
+
+                            This inauguration is only the
+                            beginning.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             REGISTRATION
+             ===================================================== -->
+
+        <section
+            id="register"
+            class="register-section"
+        >
+
+            <div class="container">
+
+                <div class="register-box">
+
+                    <div class="eyebrow">
+                        Open for Kings Engineering College Students
+                    </div>
+
+                    <h2>
+                        Ready to create?
+                    </h2>
+
+                    <p>
+
+                        Registration for the ZYANIX Digital Media
+                        Club inauguration and creative challenge
+                        is completely free.
+
+                    </p>
+
+                    <form id="registration-form" class="registration-form">
+
+                        <input id="selected-event" name="event" type="hidden" value="Inauguration Pass">
+
+                        <div class="event-tabs" role="tablist" aria-label="Choose an event">
+
+                            <button class="event-tab event-tab-primary is-active" type="button" role="tab" aria-selected="true" data-event="Inauguration Pass">
+                                Inauguration Pass
+                            </button>
+
+                            <button class="event-tab" type="button" role="tab" aria-selected="false" data-event="Video Editing">
+                                Video Editing
+                            </button>
+
+                            <button class="event-tab" type="button" role="tab" aria-selected="false" data-event="Poster Designing">
+                                Poster Designing
+                            </button>
+
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div id="team-name-field" class="form-field full-width" hidden>
+                                <label for="team-name">Team Name</label>
+                                <input id="team-name" name="teamName" type="text" placeholder="Enter your team name" disabled>
+                            </div>
+
+                            <div class="form-field">
+                                <label id="participant-name-label" for="participant-name">Name</label>
+                                <input id="participant-name" name="participantName" type="text" placeholder="Enter your name" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label id="register-number-label" for="register-number">Register No.</label>
+                                <input id="register-number" name="registerNumber" type="text" placeholder="Enter register number" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="department">Department</label>
+                                <input id="department" name="department" type="text" placeholder="e.g. CSE" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="section">Section</label>
+                                <input id="section" name="section" type="hidden">
+                                <div class="custom-select" id="section-picker">
+                                    <button
+                                        id="section-trigger"
+                                        class="custom-select-trigger"
+                                        type="button"
+                                        aria-haspopup="listbox"
+                                        aria-expanded="false"
+                                        aria-controls="section-options"
+                                    >
+                                        <span id="section-selected-text">Select section</span>
+                                        <span class="custom-select-arrow" aria-hidden="true"></span>
+                                    </button>
+
+                                    <div id="section-options" class="custom-select-options" role="listbox" hidden>
+                                        <button class="custom-select-option" type="button" role="option" data-section="A">Section A</button>
+                                        <button class="custom-select-option" type="button" role="option" data-section="B">Section B</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-field full-width">
+                                <label for="email">Email ID</label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="2108xxxxxxxx@kingsedu.ac.in"
+                                    title="Use your register-number email, for example 2108xxxxxxxx@kingsedu.ac.in"
+                                    required
+                                >
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-primary form-submit" type="submit">
+                            Submit Registration →
+                        </button>
+
+                        <p id="registration-message" class="registration-message" aria-live="polite"></p>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer>
+
+        <div class="container footer-inner">
+
+            <div class="footer-brand">
+                ZY<span class="brand-a">A</span>NIX <span>Digital Media Club</span>
+            </div>
+
+            <div class="footer-note">
+                Create. Learn. Lead. Build the Future.
+            </div>
+
+        </div>
+
+    </footer>
+
+    <a class="mobile-register" href="#register">
+        Register for the Event <span>→</span>
+    </a>
+
+    <!-- =========================================================
+         TEMPORARY JS
+         ========================================================= -->
+
+    <script>
+
+        const eventTabs = document.querySelectorAll('.event-tab');
+        const selectedEvent = document.getElementById('selected-event');
+        const teamNameField = document.getElementById('team-name-field');
+        const teamName = document.getElementById('team-name');
+        const participantNameLabel = document.getElementById('participant-name-label');
+        const participantName = document.getElementById('participant-name');
+        const registerNumberLabel = document.getElementById('register-number-label');
+        const registrationForm = document.getElementById('registration-form');
+        const registrationMessage = document.getElementById('registration-message');
+        const formSubmit = registrationForm.querySelector('.form-submit');
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHF-DFGSqfii1c2pKrB0YJdUGR993sU9C80Iy7yGmU26Q_g5bv-ES8e5KK0FlmJa3Q/exec';
+        const OFFICIAL_EMAIL_PATTERN = /^\d+@kingsedu\.ac\.in$/i;
+        const sectionInput = document.getElementById('section');
+        const sectionPicker = document.getElementById('section-picker');
+        const sectionTrigger = document.getElementById('section-trigger');
+        const sectionSelectedText = document.getElementById('section-selected-text');
+        const sectionOptions = document.getElementById('section-options');
+        const sectionOptionButtons = document.querySelectorAll('.custom-select-option');
+
+        function closeSectionPicker() {
+            sectionPicker.classList.remove('is-open');
+            sectionOptions.hidden = true;
+            sectionTrigger.setAttribute('aria-expanded', 'false');
+        }
+
+        sectionTrigger.addEventListener('click', () => {
+            const isOpen = sectionPicker.classList.toggle('is-open');
+            sectionOptions.hidden = !isOpen;
+            sectionTrigger.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        sectionOptionButtons.forEach((option) => {
+            option.addEventListener('click', () => {
+                sectionInput.value = option.dataset.section;
+                sectionSelectedText.textContent = option.textContent;
+                sectionOptionButtons.forEach((item) => {
+                    item.classList.toggle('is-selected', item === option);
+                    item.setAttribute('aria-selected', String(item === option));
+                });
+                registrationMessage.classList.remove('is-visible');
+                closeSectionPicker();
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!sectionPicker.contains(event.target)) {
+                closeSectionPicker();
+            }
+        });
+
+        eventTabs.forEach((tab) => {
+            tab.addEventListener('click', () => {
+                const isVideoEditing = tab.dataset.event === 'Video Editing';
+                const isPosterDesigning = tab.dataset.event === 'Poster Designing';
+                const isChallengeCategory = isVideoEditing || isPosterDesigning;
+
+                eventTabs.forEach((eventTab) => {
+                    const isSelected = eventTab === tab;
+                    eventTab.classList.toggle('is-active', isSelected);
+                    eventTab.setAttribute('aria-selected', String(isSelected));
+                });
+
+                selectedEvent.value = tab.dataset.event;
+                teamNameField.hidden = !isChallengeCategory;
+                teamName.required = isChallengeCategory;
+                teamName.disabled = !isChallengeCategory;
+                participantNameLabel.textContent = isVideoEditing
+                    ? 'Team Leader Name'
+                    : isPosterDesigning
+                        ? 'Participant Name'
+                        : 'Name';
+                participantName.placeholder = isVideoEditing
+                    ? "Enter the team leader's name"
+                    : isPosterDesigning
+                        ? "Enter the participant's name"
+                        : 'Enter your name';
+                registerNumberLabel.textContent = isVideoEditing
+                    ? 'Team Leader Register No.'
+                    : 'Register No.';
+                registrationMessage.classList.remove('is-visible');
+            });
+        });
+
+        registrationForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            if (!registrationForm.checkValidity()) {
+                registrationForm.reportValidity();
+                return;
+            }
+
+            if (!sectionInput.value) {
+                registrationMessage.textContent = 'Please choose your section before submitting.';
+                registrationMessage.classList.add('is-visible');
+                sectionTrigger.focus();
+                return;
+            }
+
+            if (GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')) {
+                registrationMessage.textContent =
+                    'The registration backend is not connected yet. Add your Google Apps Script Web App URL to activate submissions.';
+                registrationMessage.classList.add('is-visible');
+                return;
+            }
+
+            const payload = {
+                event: selectedEvent.value,
+                teamName: teamName.value,
+                participantName: participantName.value,
+                registerNumber: document.getElementById('register-number').value,
+                department: document.getElementById('department').value,
+                section: sectionInput.value,
+                email: document.getElementById('email').value
+            };
+
+            if (!OFFICIAL_EMAIL_PATTERN.test(payload.email.trim())) {
+                registrationMessage.textContent =
+                    'Use your register-number email, for example 2108xxxxxxxx@kingsedu.ac.in.';
+                registrationMessage.classList.add('is-visible');
+                document.getElementById('email').focus();
+                return;
+            }
+
+            formSubmit.disabled = true;
+            formSubmit.textContent = 'Submitting…';
+            registrationMessage.classList.remove('is-visible');
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (!result.ok) {
+                    throw new Error(result.message || 'Unable to submit your registration.');
+                }
+
+                registrationMessage.textContent =
+                    `Registration confirmed. Your ID is ${result.registrationId}.`;
+                registrationMessage.classList.add('is-visible');
+                formSubmit.textContent = 'Registration Confirmed';
+            } catch (error) {
+                registrationMessage.textContent = error.message || 'Unable to connect to the registration service.';
+                registrationMessage.classList.add('is-visible');
+                formSubmit.disabled = false;
+                formSubmit.textContent = 'Submit Registration →';
+            }
+        });
+
+    </script>
+
+</body>
+</html>
