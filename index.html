@@ -2365,8 +2365,7 @@
                                     id="email"
                                     name="email"
                                     type="email"
-                                    placeholder="2108xxxxxxxx@kingsedu.ac.in"
-                                    title="Use your register-number email, for example 2108xxxxxxxx@kingsedu.ac.in"
+                                    placeholder="Enter your email address"
                                     required
                                 >
                             </div>
@@ -2431,7 +2430,7 @@
         const registrationMessage = document.getElementById('registration-message');
         const formSubmit = registrationForm.querySelector('.form-submit');
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHF-DFGSqfii1c2pKrB0YJdUGR993sU9C80Iy7yGmU26Q_g5bv-ES8e5KK0FlmJa3Q/exec';
-        const OFFICIAL_EMAIL_PATTERN = /^\d+@kingsedu\.ac\.in$/i;
+        const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const sectionInput = document.getElementById('section');
         const sectionPicker = document.getElementById('section-picker');
         const sectionTrigger = document.getElementById('section-trigger');
@@ -2535,9 +2534,8 @@
                 email: document.getElementById('email').value
             };
 
-            if (!OFFICIAL_EMAIL_PATTERN.test(payload.email.trim())) {
-                registrationMessage.textContent =
-                    'Use your register-number email, for example 2108xxxxxxxx@kingsedu.ac.in.';
+            if (!EMAIL_PATTERN.test(payload.email.trim())) {
+                registrationMessage.textContent = 'Please enter a valid email address.';
                 registrationMessage.classList.add('is-visible');
                 document.getElementById('email').focus();
                 return;

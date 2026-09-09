@@ -6,7 +6,6 @@
  */
 
 const SHEET_NAME = 'Registrations';
-const OFFICIAL_EMAIL_DOMAIN = 'kingsedu.ac.in';
 const HEADERS = [
   'Timestamp',
   'Registration ID',
@@ -133,10 +132,6 @@ function validateAndNormalise_(payload) {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     throw new Error('Please provide a valid email address.');
-  }
-
-  if (!new RegExp('^\\d+@' + OFFICIAL_EMAIL_DOMAIN.replace('.', '\\.') + '$', 'i').test(data.email)) {
-    throw new Error('Use your register-number email, for example 2108xxxxxxxx@kingsedu.ac.in.');
   }
 
   return data;
