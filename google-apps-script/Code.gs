@@ -10,9 +10,7 @@ const HEADERS = [
   'Timestamp',
   'Registration ID',
   'Event',
-  'Team Name',
-  'Participant Name',
-  'Register No.',
+  'Name',
   'Department',
   'Section',
   'Email'
@@ -51,9 +49,7 @@ function doPost(event) {
         new Date(),
         registrationId,
         data.event,
-        data.teamName,
         data.participantName,
-        data.registerNumber,
         data.department,
         data.section,
         data.email
@@ -95,8 +91,9 @@ function emailAlreadyRegistered_(sheet, email) {
   const lastRow = sheet.getLastRow();
   if (lastRow < 2) return false;
 
+  const emailColIndex = HEADERS.indexOf('Email') + 1;
   const existingEmails = sheet
-    .getRange(2, 9, lastRow - 1, 1)
+    .getRange(2, emailColIndex, lastRow - 1, 1)
     .getDisplayValues()
     .flat()
     .map(value => String(value).trim().toLowerCase());
@@ -106,13 +103,11 @@ function emailAlreadyRegistered_(sheet, email) {
 
 function validateAndNormalise_(payload) {
   const permittedEvents = ['Inauguration Pass', 'Video Editing', 'Poster Designing'];
-  const event = clean_(payload.event);
+  const event = clean_(payload.event) || 'Inauguration Pass';
   const email = clean_(payload.email).toLowerCase();
   const data = {
     event: event,
-    teamName: clean_(payload.teamName),
-    participantName: clean_(payload.participantName),
-    registerNumber: clean_(payload.registerNumber),
+    participantName: clean_(payload.participantName || payload.name),
     department: clean_(payload.department),
     section: clean_(payload.section),
     email: email
@@ -122,12 +117,8 @@ function validateAndNormalise_(payload) {
     throw new Error('Please choose a valid registration option.');
   }
 
-  if (!data.participantName || !data.registerNumber || !data.department || !data.section || !data.email) {
+  if (!data.participantName || !data.department || !data.section || !data.email) {
     throw new Error('Please complete every required field.');
-  }
-
-  if ((data.event === 'Video Editing' || data.event === 'Poster Designing') && !data.teamName) {
-    throw new Error('Team Name is required for challenge registrations.');
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {

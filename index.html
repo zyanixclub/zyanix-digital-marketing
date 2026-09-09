@@ -2316,19 +2316,9 @@
 
                         <div class="form-grid">
 
-                            <div id="team-name-field" class="form-field full-width" hidden>
-                                <label for="team-name">Team Name</label>
-                                <input id="team-name" name="teamName" type="text" placeholder="Enter your team name" disabled>
-                            </div>
-
-                            <div class="form-field">
-                                <label id="participant-name-label" for="participant-name">Name</label>
+                            <div class="form-field full-width">
+                                <label for="participant-name">Name</label>
                                 <input id="participant-name" name="participantName" type="text" placeholder="Enter your name" required>
-                            </div>
-
-                            <div class="form-field">
-                                <label id="register-number-label" for="register-number">Register No.</label>
-                                <input id="register-number" name="registerNumber" type="text" placeholder="Enter register number" required>
                             </div>
 
                             <div class="form-field">
@@ -2421,11 +2411,7 @@
 
         const eventTabs = document.querySelectorAll('.event-tab');
         const selectedEvent = document.getElementById('selected-event');
-        const teamNameField = document.getElementById('team-name-field');
-        const teamName = document.getElementById('team-name');
-        const participantNameLabel = document.getElementById('participant-name-label');
         const participantName = document.getElementById('participant-name');
-        const registerNumberLabel = document.getElementById('register-number-label');
         const registrationForm = document.getElementById('registration-form');
         const registrationMessage = document.getElementById('registration-message');
         const formSubmit = registrationForm.querySelector('.form-submit');
@@ -2471,10 +2457,6 @@
 
         eventTabs.forEach((tab) => {
             tab.addEventListener('click', () => {
-                const isVideoEditing = tab.dataset.event === 'Video Editing';
-                const isPosterDesigning = tab.dataset.event === 'Poster Designing';
-                const isChallengeCategory = isVideoEditing || isPosterDesigning;
-
                 eventTabs.forEach((eventTab) => {
                     const isSelected = eventTab === tab;
                     eventTab.classList.toggle('is-active', isSelected);
@@ -2482,22 +2464,6 @@
                 });
 
                 selectedEvent.value = tab.dataset.event;
-                teamNameField.hidden = !isChallengeCategory;
-                teamName.required = isChallengeCategory;
-                teamName.disabled = !isChallengeCategory;
-                participantNameLabel.textContent = isVideoEditing
-                    ? 'Team Leader Name'
-                    : isPosterDesigning
-                        ? 'Participant Name'
-                        : 'Name';
-                participantName.placeholder = isVideoEditing
-                    ? "Enter the team leader's name"
-                    : isPosterDesigning
-                        ? "Enter the participant's name"
-                        : 'Enter your name';
-                registerNumberLabel.textContent = isVideoEditing
-                    ? 'Team Leader Register No.'
-                    : 'Register No.';
                 registrationMessage.classList.remove('is-visible');
             });
         });
@@ -2526,9 +2492,7 @@
 
             const payload = {
                 event: selectedEvent.value,
-                teamName: teamName.value,
                 participantName: participantName.value,
-                registerNumber: document.getElementById('register-number').value,
                 department: document.getElementById('department').value,
                 section: sectionInput.value,
                 email: document.getElementById('email').value
