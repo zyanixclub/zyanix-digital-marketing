@@ -12,4 +12,4 @@ The `Registrations` tab contains these columns:
 
 `Timestamp | Registration ID | Event | Team Name | Team Leader / Name | Team Member 1 | Team Member 2 | Department | Section | Year | Phone Number | Email`
 
-The backend uses a script lock and a case-insensitive email check, so an email can register only once—even if two form submissions happen at almost the same time.
+The backend uses a script lock and a unified, case-insensitive batch check for both email and team name, so duplicate emails and duplicate team names are rejected in a single fast read operation.
