@@ -1100,7 +1100,8 @@
             box-shadow: 0 0 0 3px rgba(255,90,31,0.14);
         }
 
-        .form-field input.is-invalid {
+        .form-field input.is-invalid,
+        .custom-select-trigger.is-invalid {
             border-color: #ff4d4f !important;
             box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.25) !important;
             animation: fieldShake 0.3s ease;
@@ -2302,7 +2303,7 @@
 
                     </p>
 
-                    <form id="registration-form" class="registration-form">
+                    <form id="registration-form" class="registration-form" novalidate>
 
                         <input id="selected-event" name="event" type="hidden" value="Inauguration Pass">
 
@@ -2333,11 +2334,13 @@
                             <div class="form-field full-width">
                                 <label id="participant-name-label" for="participant-name">Name</label>
                                 <input id="participant-name" name="participantName" type="text" placeholder="Enter your name" required>
+                                <div id="participant-name-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                             <div id="member-1-field" class="form-field full-width" hidden>
                                 <label id="member-1-label" for="member-1">Team Member 1 Name</label>
                                 <input id="member-1" name="member1" type="text" placeholder="Enter team member 1's name" disabled>
+                                <div id="member-1-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                             <div id="member-2-field" class="form-field full-width" hidden>
@@ -2348,6 +2351,7 @@
                             <div class="form-field">
                                 <label for="department">Department</label>
                                 <input id="department" name="academic_branch" type="text" value="IT" placeholder="e.g. IT" autocomplete="off" required>
+                                <div id="department-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                             <div class="form-field">
@@ -2371,6 +2375,7 @@
                                         <button class="custom-select-option" type="button" role="option" data-section="B">Section B</button>
                                     </div>
                                 </div>
+                                <div id="section-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                             <div class="form-field full-width">
@@ -2396,6 +2401,7 @@
                                         <button class="custom-select-option" type="button" role="option" data-year="4th Year">4th Year</button>
                                     </div>
                                 </div>
+                                <div id="year-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                             <div id="phone-field" class="form-field full-width" hidden>
@@ -2408,6 +2414,7 @@
                                     autocomplete="tel"
                                     disabled
                                 >
+                                <div id="phone-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                             <div class="form-field full-width">
@@ -2508,25 +2515,73 @@
         const registrationForm = document.getElementById('registration-form');
         const registrationMessage = document.getElementById('registration-message');
         const teamNameError = document.getElementById('team-name-error');
+        const participantNameError = document.getElementById('participant-name-error');
+        const member1Error = document.getElementById('member-1-error');
+        const deptError = document.getElementById('department-error');
+        const sectionError = document.getElementById('section-error');
+        const yearError = document.getElementById('year-error');
+        const phoneError = document.getElementById('phone-error');
         const emailInput = document.getElementById('email');
         const emailError = document.getElementById('email-error');
 
         function setFieldError(inputEl, errorEl, message) {
-            inputEl.classList.add('is-invalid');
-            errorEl.textContent = message;
-            errorEl.classList.add('is-visible');
+            if (inputEl) {
+                inputEl.classList.remove('is-invalid');
+                void inputEl.offsetWidth;
+                inputEl.classList.add('is-invalid');
+            }
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.classList.add('is-visible');
+            }
         }
 
         function clearFieldError(inputEl, errorEl) {
-            inputEl.classList.remove('is-invalid');
-            errorEl.textContent = '';
-            errorEl.classList.remove('is-visible');
+            if (inputEl) inputEl.classList.remove('is-invalid');
+            if (errorEl) {
+                errorEl.textContent = '';
+                errorEl.classList.remove('is-visible');
+            }
+        }
+
+        function clearAllFieldErrors() {
+            clearFieldError(teamName, teamNameError);
+            clearFieldError(participantName, participantNameError);
+            clearFieldError(member1, member1Error);
+            clearFieldError(deptInput, deptError);
+            clearFieldError(sectionTrigger, sectionError);
+            clearFieldError(yearTrigger, yearError);
+            if (phone) clearFieldError(phone, phoneError);
+            clearFieldError(emailInput, emailError);
+            registrationMessage.classList.remove('is-visible');
         }
 
         teamName.addEventListener('input', () => {
             clearFieldError(teamName, teamNameError);
             registrationMessage.classList.remove('is-visible');
         });
+
+        participantName.addEventListener('input', () => {
+            clearFieldError(participantName, participantNameError);
+            registrationMessage.classList.remove('is-visible');
+        });
+
+        member1.addEventListener('input', () => {
+            clearFieldError(member1, member1Error);
+            registrationMessage.classList.remove('is-visible');
+        });
+
+        deptInput.addEventListener('input', () => {
+            clearFieldError(deptInput, deptError);
+            registrationMessage.classList.remove('is-visible');
+        });
+
+        if (phone) {
+            phone.addEventListener('input', () => {
+                clearFieldError(phone, phoneError);
+                registrationMessage.classList.remove('is-visible');
+            });
+        }
 
         emailInput.addEventListener('input', () => {
             clearFieldError(emailInput, emailError);
@@ -2577,6 +2632,7 @@
                     item.classList.toggle('is-selected', item === option);
                     item.setAttribute('aria-selected', String(item === option));
                 });
+                clearFieldError(sectionTrigger, sectionError);
                 registrationMessage.classList.remove('is-visible');
                 closeSectionPicker();
             });
@@ -2597,6 +2653,7 @@
                     item.classList.toggle('is-selected', item === option);
                     item.setAttribute('aria-selected', String(item === option));
                 });
+                clearFieldError(yearTrigger, yearError);
                 registrationMessage.classList.remove('is-visible');
                 closeYearPicker();
             });
@@ -2675,45 +2732,128 @@
                     phone.value = '';
                 }
 
-                clearFieldError(teamName, teamNameError);
-                clearFieldError(emailInput, emailError);
-                registrationMessage.classList.remove('is-visible');
+                clearAllFieldErrors();
             });
         });
+
+        function validatePhoneNumber(value) {
+            let cleaned = (value || '').trim();
+            if (!cleaned) {
+                return { valid: false, message: 'Please enter your phone number.' };
+            }
+
+            if (cleaned.startsWith('+')) {
+                if (/^\+\s*91(\D|$)/.test(cleaned) || /^\+\s*91\d/.test(cleaned)) {
+                    cleaned = cleaned.replace(/^\+\s*91[\s\-]*/, '');
+                } else {
+                    return { valid: false, message: 'Only Indian phone numbers (+91) are accepted.' };
+                }
+            } else if (/^91\d{10}$/.test(cleaned.replace(/[\s\-]/g, ''))) {
+                cleaned = cleaned.replace(/^91[\s\-]*/, '');
+            } else if (/^0\d{10}$/.test(cleaned.replace(/[\s\-]/g, ''))) {
+                cleaned = cleaned.replace(/^0[\s\-]*/, '');
+            }
+
+            if (/[^\d\s\-]/.test(cleaned)) {
+                return { valid: false, message: 'Phone number must contain numbers only.' };
+            }
+
+            const digitsOnly = cleaned.replace(/[\s\-]/g, '');
+
+            if (digitsOnly.length > 10) {
+                return { valid: false, message: 'Phone number cannot exceed 10 digits.' };
+            }
+            if (digitsOnly.length < 10) {
+                return { valid: false, message: 'Phone number must be exactly 10 digits.' };
+            }
+
+            return { valid: true, cleanNumber: digitsOnly };
+        }
+
+        function validateAllFields() {
+            clearAllFieldErrors();
+            let isValid = true;
+            let firstInvalidEl = null;
+
+            function markInvalid(inputEl, errorEl, message) {
+                setFieldError(inputEl, errorEl, message);
+                if (!firstInvalidEl) {
+                    firstInvalidEl = inputEl;
+                }
+                isValid = false;
+            }
+
+            const eventName = selectedEvent.value;
+            const isVideoEditing = eventName === 'Video Editing';
+            const isPosterDesigning = eventName === 'Poster Designing';
+            const isChallenge = isVideoEditing || isPosterDesigning;
+
+            if (isChallenge) {
+                if (!teamName.value.trim()) {
+                    markInvalid(teamName, teamNameError, 'Please enter a team name.');
+                }
+            }
+
+            if (!participantName.value.trim()) {
+                const msg = isChallenge ? "Please enter team leader's name." : 'Please enter your name.';
+                markInvalid(participantName, participantNameError, msg);
+            }
+
+            if (isChallenge) {
+                if (!member1.value.trim()) {
+                    const msg = isVideoEditing ? "Please enter team member 1's name." : "Please enter team member's name.";
+                    markInvalid(member1, member1Error, msg);
+                }
+            }
+
+            if (!deptInput.value.trim()) {
+                markInvalid(deptInput, deptError, 'Please enter your department.');
+            }
+
+            if (!sectionInput.value.trim()) {
+                markInvalid(sectionTrigger, sectionError, 'Please select your section.');
+            }
+
+            if (!yearInput.value.trim()) {
+                markInvalid(yearTrigger, yearError, 'Please select your year.');
+            }
+
+            let cleanPhone = '';
+            if (isChallenge) {
+                const phoneVal = phone ? phone.value : '';
+                const phoneResult = validatePhoneNumber(phoneVal);
+                if (!phoneResult.valid) {
+                    markInvalid(phone, phoneError, phoneResult.message);
+                } else {
+                    cleanPhone = phoneResult.cleanNumber;
+                }
+            }
+
+            const emailVal = emailInput.value.trim();
+            if (!emailVal) {
+                markInvalid(emailInput, emailError, 'Please enter your email address.');
+            } else if (!EMAIL_PATTERN.test(emailVal)) {
+                markInvalid(emailInput, emailError, 'Please enter a valid email address.');
+            }
+
+            if (!isValid && firstInvalidEl) {
+                firstInvalidEl.focus();
+                if (typeof firstInvalidEl.scrollIntoView === 'function') {
+                    firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            return { isValid, cleanPhone };
+        }
 
         registrationForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            clearFieldError(teamName, teamNameError);
-            clearFieldError(emailInput, emailError);
+            cleanAutofillDepartment();
 
-            if (!registrationForm.checkValidity()) {
-                registrationForm.reportValidity();
+            const validation = validateAllFields();
+            if (!validation.isValid) {
                 return;
-            }
-
-            if (!sectionInput.value) {
-                registrationMessage.textContent = 'Please choose your section before submitting.';
-                registrationMessage.classList.add('is-visible');
-                sectionTrigger.focus();
-                return;
-            }
-
-            if (!yearInput.value) {
-                registrationMessage.textContent = 'Please choose your year before submitting.';
-                registrationMessage.classList.add('is-visible');
-                yearTrigger.focus();
-                return;
-            }
-
-            if (phone.required && !phone.disabled) {
-                const cleanPhone = phone.value.trim().replace(/[\s-]/g, '');
-                if (!/^\d{10}$/.test(cleanPhone)) {
-                    registrationMessage.textContent = 'Please enter a valid 10-digit phone number.';
-                    registrationMessage.classList.add('is-visible');
-                    phone.focus();
-                    return;
-                }
             }
 
             if (GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')) {
@@ -2723,26 +2863,18 @@
                 return;
             }
 
-            cleanAutofillDepartment();
-
             const payload = {
                 event: selectedEvent.value,
                 teamName: teamName.disabled ? '' : teamName.value.trim(),
                 participantName: participantName.value.trim(),
                 member1: member1.disabled ? '' : member1.value.trim(),
                 member2: member2.disabled ? '' : member2.value.trim(),
-                department: document.getElementById('department').value.trim(),
+                department: deptInput.value.trim(),
                 section: sectionInput.value,
                 year: yearInput.value,
-                phone: phone.disabled ? '' : phone.value.trim(),
-                email: document.getElementById('email').value.trim()
+                phone: phone.disabled ? '' : validation.cleanPhone,
+                email: emailInput.value.trim()
             };
-
-            if (!EMAIL_PATTERN.test(payload.email.trim())) {
-                setFieldError(emailInput, emailError, 'Please enter a valid email address.');
-                document.getElementById('email').focus();
-                return;
-            }
 
             formSubmit.disabled = true;
             formSubmit.textContent = 'Submitting…';
@@ -2760,9 +2892,14 @@
                     if (result.code === 'duplicate_team_name' && !teamName.disabled) {
                         setFieldError(teamName, teamNameError, result.message || 'This Team Name is already taken.');
                         teamName.focus();
+                        teamName.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     } else if (result.code === 'duplicate_email') {
                         setFieldError(emailInput, emailError, result.message || 'This email address has already been used to register.');
-                        document.getElementById('email').focus();
+                        emailInput.focus();
+                        emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        registrationMessage.textContent = result.message || 'Unable to submit your registration.';
+                        registrationMessage.classList.add('is-visible');
                     }
                     throw new Error(result.message || 'Unable to submit your registration.');
                 }
@@ -2772,7 +2909,7 @@
                 registrationMessage.classList.add('is-visible');
                 formSubmit.textContent = 'Registration Confirmed';
             } catch (error) {
-                if (!teamNameError.classList.contains('is-visible') && !emailError.classList.contains('is-visible')) {
+                if (!teamNameError.classList.contains('is-visible') && !emailError.classList.contains('is-visible') && !registrationMessage.classList.contains('is-visible')) {
                     registrationMessage.textContent = error.message || 'Unable to connect to the registration service.';
                     registrationMessage.classList.add('is-visible');
                 }
