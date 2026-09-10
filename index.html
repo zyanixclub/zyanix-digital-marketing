@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ZYANIX Digital Media Club</title>
+    <title>ZYANIX Digital Media Marketing Hub</title>
 
     <meta
         name="description"
-        content="ZYANIX Digital Media Club — Create. Learn. Lead. Build the Future."
+        content="ZYANIX Digital Media Marketing Hub — Create. Learn. Lead. Build the Future."
     >
 
     <style>
         /* =========================================================
-           ZYANIX DIGITAL MEDIA CLUB
+           ZYANIX DIGITAL MEDIA MARKETING HUB — OFFICIAL INAUGURATION
            FRONT-END ONLY — VERSION 1
            ========================================================= */
 
@@ -684,23 +684,7 @@
             position: relative;
         }
 
-        .challenge-box::after {
-            content: "CREATIVE";
 
-            position: absolute;
-
-            right: -20px;
-            bottom: -35px;
-
-            font-family: "Futura Md BT", "Futura", sans-serif;
-
-            font-size: 130px;
-            font-weight: 700;
-
-            color: rgba(255,255,255,0.025);
-
-            pointer-events: none;
-        }
 
         .challenge-grid {
             display: grid;
@@ -1421,7 +1405,7 @@
             }
 
             .logo-subtitle {
-                font-size: 14px;
+                font-size: clamp(10px, 2.7vw, 13px);
             }
 
             .logo {
@@ -1500,7 +1484,7 @@
                 </span>
 
                 <img class="logo-wordmark" src="assets/zyanix-wordmark.png" alt="Zyanix">
-                <span class="logo-subtitle">Digital Media</span>
+                <span class="logo-subtitle">Digital Media Marketing Hub</span>
 
             </a>
 
@@ -1551,7 +1535,7 @@
 
                         <span class="pulse"></span>
 
-                        Inauguration · 14 September 2026
+                        Inauguration · 15 September 2026
 
                     </div>
 
@@ -1572,7 +1556,7 @@
 
                     <p class="hero-description">
 
-                        Welcome to the ZYANIX Digital Media Club —
+                        Welcome to the ZYANIX Digital Media Marketing Hub —
                         a student-driven creative initiative built to
                         explore digital media, creative technology,
                         design and real-world skills.
@@ -1609,7 +1593,7 @@
                             </div>
 
                             <div class="meta-value">
-                                14 September 2026
+                                15 September 2026
                             </div>
 
                         </div>
@@ -1653,7 +1637,7 @@
                         </div>
 
                         <h2 class="section-title">
-                            More than a club.
+                            More than a hub.
                             A creative
                             community.
                         </h2>
@@ -1665,7 +1649,7 @@
 
                         <p class="objective-text">
 
-                            ZYANIX Digital Media Club is being
+                            ZYANIX Digital Media Marketing Hub is being
                             introduced as a platform for students
                             to discover, learn and experiment with
                             digital media.
@@ -1725,7 +1709,7 @@
 
                         <p>
                             The formal introduction of
-                            ZYANIX Digital Media Club and
+                            ZYANIX Digital Media Marketing Hub and
                             the launch of its official website.
                         </p>
 
@@ -1842,7 +1826,7 @@
 
                             <p>
                                 Welcome address and introduction
-                                to ZYANIX Digital Media Club.
+                                to ZYANIX Digital Media Marketing Hub.
                             </p>
 
                         </div>
@@ -1907,7 +1891,7 @@
                             <p>
                                 Formal launch and brief
                                 presentation of the ZYANIX
-                                Digital Media Club website.
+                                Digital Media Marketing Hub website.
                             </p>
 
                         </div>
@@ -2121,7 +2105,7 @@
                                 <div class="challenge-option">
 
                                     <span>
-                                        CATEGORY 01
+                                        CATEGORY 01 · UP TO 3 MEMBERS
                                     </span>
 
                                     <strong>
@@ -2134,7 +2118,7 @@
                                 <div class="challenge-option">
 
                                     <span>
-                                        CATEGORY 02
+                                        CATEGORY 02 · UP TO 3 MEMBERS
                                     </span>
 
                                     <strong>
@@ -2244,7 +2228,7 @@
 
                         <p class="objective-text">
 
-                            The ZYANIX Digital Media Club aims to
+                            The ZYANIX Digital Media Marketing Hub aims to
                             create an environment where students
                             can experiment, collaborate and build
                             practical creative skills.
@@ -2289,7 +2273,7 @@
                     <p>
 
                         Registration for the ZYANIX Digital Media
-                        Club inauguration and creative challenge
+                        Marketing Hub inauguration and creative challenge
                         is completely free.
 
                     </p>
@@ -2316,14 +2300,19 @@
 
                         <div class="form-grid">
 
+                            <div id="team-name-field" class="form-field full-width" hidden>
+                                <label for="team-name">Team Name</label>
+                                <input id="team-name" name="teamName" type="text" placeholder="Enter your team name" disabled>
+                            </div>
+
                             <div class="form-field full-width">
-                                <label for="participant-name">Name</label>
+                                <label id="participant-name-label" for="participant-name">Name</label>
                                 <input id="participant-name" name="participantName" type="text" placeholder="Enter your name" required>
                             </div>
 
                             <div class="form-field">
                                 <label for="department">Department</label>
-                                <input id="department" name="department" type="text" placeholder="e.g. CSE" required>
+                                <input id="department" name="department" type="text" value="IT" placeholder="e.g. IT" required>
                             </div>
 
                             <div class="form-field">
@@ -2345,6 +2334,31 @@
                                     <div id="section-options" class="custom-select-options" role="listbox" hidden>
                                         <button class="custom-select-option" type="button" role="option" data-section="A">Section A</button>
                                         <button class="custom-select-option" type="button" role="option" data-section="B">Section B</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-field full-width">
+                                <label for="year">Year</label>
+                                <input id="year" name="year" type="hidden">
+                                <div class="custom-select" id="year-picker">
+                                    <button
+                                        id="year-trigger"
+                                        class="custom-select-trigger"
+                                        type="button"
+                                        aria-haspopup="listbox"
+                                        aria-expanded="false"
+                                        aria-controls="year-options"
+                                    >
+                                        <span id="year-selected-text">Select year</span>
+                                        <span class="custom-select-arrow" aria-hidden="true"></span>
+                                    </button>
+
+                                    <div id="year-options" class="custom-select-options" role="listbox" hidden>
+                                        <button class="custom-select-option" type="button" role="option" data-year="1st Year">1st Year</button>
+                                        <button class="custom-select-option" type="button" role="option" data-year="2nd Year">2nd Year</button>
+                                        <button class="custom-select-option" type="button" role="option" data-year="3rd Year">3rd Year</button>
+                                        <button class="custom-select-option" type="button" role="option" data-year="4th Year">4th Year</button>
                                     </div>
                                 </div>
                             </div>
@@ -2388,7 +2402,7 @@
         <div class="container footer-inner">
 
             <div class="footer-brand">
-                ZY<span class="brand-a">A</span>NIX <span>Digital Media Club</span>
+                ZY<span class="brand-a">A</span>NIX <span>Digital Media Marketing Hub</span>
             </div>
 
             <div class="footer-note">
@@ -2411,6 +2425,9 @@
 
         const eventTabs = document.querySelectorAll('.event-tab');
         const selectedEvent = document.getElementById('selected-event');
+        const teamNameField = document.getElementById('team-name-field');
+        const teamName = document.getElementById('team-name');
+        const participantNameLabel = document.getElementById('participant-name-label');
         const participantName = document.getElementById('participant-name');
         const registrationForm = document.getElementById('registration-form');
         const registrationMessage = document.getElementById('registration-message');
@@ -2422,7 +2439,14 @@
         const sectionTrigger = document.getElementById('section-trigger');
         const sectionSelectedText = document.getElementById('section-selected-text');
         const sectionOptions = document.getElementById('section-options');
-        const sectionOptionButtons = document.querySelectorAll('.custom-select-option');
+        const sectionOptionButtons = sectionOptions.querySelectorAll('.custom-select-option');
+
+        const yearInput = document.getElementById('year');
+        const yearPicker = document.getElementById('year-picker');
+        const yearTrigger = document.getElementById('year-trigger');
+        const yearSelectedText = document.getElementById('year-selected-text');
+        const yearOptions = document.getElementById('year-options');
+        const yearOptionButtons = yearOptions.querySelectorAll('.custom-select-option');
 
         function closeSectionPicker() {
             sectionPicker.classList.remove('is-open');
@@ -2430,7 +2454,14 @@
             sectionTrigger.setAttribute('aria-expanded', 'false');
         }
 
+        function closeYearPicker() {
+            yearPicker.classList.remove('is-open');
+            yearOptions.hidden = true;
+            yearTrigger.setAttribute('aria-expanded', 'false');
+        }
+
         sectionTrigger.addEventListener('click', () => {
+            closeYearPicker();
             const isOpen = sectionPicker.classList.toggle('is-open');
             sectionOptions.hidden = !isOpen;
             sectionTrigger.setAttribute('aria-expanded', String(isOpen));
@@ -2449,14 +2480,39 @@
             });
         });
 
+        yearTrigger.addEventListener('click', () => {
+            closeSectionPicker();
+            const isOpen = yearPicker.classList.toggle('is-open');
+            yearOptions.hidden = !isOpen;
+            yearTrigger.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        yearOptionButtons.forEach((option) => {
+            option.addEventListener('click', () => {
+                yearInput.value = option.dataset.year;
+                yearSelectedText.textContent = option.textContent;
+                yearOptionButtons.forEach((item) => {
+                    item.classList.toggle('is-selected', item === option);
+                    item.setAttribute('aria-selected', String(item === option));
+                });
+                registrationMessage.classList.remove('is-visible');
+                closeYearPicker();
+            });
+        });
+
         document.addEventListener('click', (event) => {
             if (!sectionPicker.contains(event.target)) {
                 closeSectionPicker();
+            }
+            if (!yearPicker.contains(event.target)) {
+                closeYearPicker();
             }
         });
 
         eventTabs.forEach((tab) => {
             tab.addEventListener('click', () => {
+                const isChallenge = tab.dataset.event === 'Video Editing' || tab.dataset.event === 'Poster Designing';
+
                 eventTabs.forEach((eventTab) => {
                     const isSelected = eventTab === tab;
                     eventTab.classList.toggle('is-active', isSelected);
@@ -2464,6 +2520,24 @@
                 });
 
                 selectedEvent.value = tab.dataset.event;
+
+                // Team name is required for Video Editing and Poster Designing (teams up to 3)
+                teamNameField.hidden = !isChallenge;
+                teamName.required = isChallenge;
+                teamName.disabled = !isChallenge;
+                if (!isChallenge) {
+                    teamName.value = '';
+                }
+
+                // Dynamic label and placeholder switching
+                if (isChallenge) {
+                    participantNameLabel.textContent = 'Team Leader Name';
+                    participantName.placeholder = "Enter team leader's name";
+                } else {
+                    participantNameLabel.textContent = 'Name';
+                    participantName.placeholder = 'Enter your name';
+                }
+
                 registrationMessage.classList.remove('is-visible');
             });
         });
@@ -2483,6 +2557,13 @@
                 return;
             }
 
+            if (!yearInput.value) {
+                registrationMessage.textContent = 'Please choose your year before submitting.';
+                registrationMessage.classList.add('is-visible');
+                yearTrigger.focus();
+                return;
+            }
+
             if (GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')) {
                 registrationMessage.textContent =
                     'The registration backend is not connected yet. Add your Google Apps Script Web App URL to activate submissions.';
@@ -2492,10 +2573,12 @@
 
             const payload = {
                 event: selectedEvent.value,
-                participantName: participantName.value,
-                department: document.getElementById('department').value,
+                teamName: teamName.disabled ? '' : teamName.value.trim(),
+                participantName: participantName.value.trim(),
+                department: document.getElementById('department').value.trim(),
                 section: sectionInput.value,
-                email: document.getElementById('email').value
+                year: yearInput.value,
+                email: document.getElementById('email').value.trim()
             };
 
             if (!EMAIL_PATTERN.test(payload.email.trim())) {

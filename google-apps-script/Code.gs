@@ -1,5 +1,5 @@
 /**
- * ZYANIX Digital Media Club — registration backend
+ * ZYANIX Digital Media Marketing Hub — registration backend
  *
  * Create a blank Google Sheet, open Extensions > Apps Script, replace the
  * default file with this code, run setup() once, then deploy as a Web App.
@@ -10,9 +10,11 @@ const HEADERS = [
   'Timestamp',
   'Registration ID',
   'Event',
-  'Name',
+  'Team Name',
+  'Participant Name',
   'Department',
   'Section',
+  'Year',
   'Email'
 ];
 
@@ -49,9 +51,11 @@ function doPost(event) {
         new Date(),
         registrationId,
         data.event,
+        data.teamName || '—',
         data.participantName,
         data.department,
         data.section,
+        data.year,
         data.email
       ]);
 
@@ -107,9 +111,11 @@ function validateAndNormalise_(payload) {
   const email = clean_(payload.email).toLowerCase();
   const data = {
     event: event,
+    teamName: clean_(payload.teamName),
     participantName: clean_(payload.participantName || payload.name),
     department: clean_(payload.department),
     section: clean_(payload.section),
+    year: clean_(payload.year),
     email: email
   };
 
@@ -117,8 +123,12 @@ function validateAndNormalise_(payload) {
     throw new Error('Please choose a valid registration option.');
   }
 
-  if (!data.participantName || !data.department || !data.section || !data.email) {
+  if (!data.participantName || !data.department || !data.section || !data.year || !data.email) {
     throw new Error('Please complete every required field.');
+  }
+
+  if ((data.event === 'Video Editing' || data.event === 'Poster Designing') && !data.teamName) {
+    throw new Error('Team Name is required for challenge registrations.');
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
