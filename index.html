@@ -2321,7 +2321,7 @@
 
                             <div class="form-field">
                                 <label for="department">Department</label>
-                                <input id="department" name="department" type="text" value="IT" placeholder="e.g. IT" required>
+                                <input id="department" name="academic_branch" type="text" value="IT" placeholder="e.g. IT" autocomplete="off" required>
                             </div>
 
                             <div class="form-field">
@@ -2458,6 +2458,26 @@
         const member2 = document.getElementById('member-2');
         const phoneField = document.getElementById('phone-field');
         const phone = document.getElementById('phone');
+        const deptInput = document.getElementById('department');
+
+        function cleanAutofillDepartment() {
+            // Browsers sometimes mistakenly autofill telephone into department due to the "dept" heuristic
+            if (/\d{5,}/.test(deptInput.value)) {
+                deptInput.value = 'IT';
+            }
+        }
+
+        deptInput.addEventListener('input', cleanAutofillDepartment);
+        deptInput.addEventListener('change', cleanAutofillDepartment);
+        if (phone) {
+            phone.addEventListener('input', () => {
+                setTimeout(cleanAutofillDepartment, 50);
+            });
+            phone.addEventListener('change', () => {
+                setTimeout(cleanAutofillDepartment, 50);
+            });
+        }
+
         const registrationForm = document.getElementById('registration-form');
         const registrationMessage = document.getElementById('registration-message');
         const formSubmit = registrationForm.querySelector('.form-submit');
@@ -2644,6 +2664,8 @@
                 registrationMessage.classList.add('is-visible');
                 return;
             }
+
+            cleanAutofillDepartment();
 
             const payload = {
                 event: selectedEvent.value,
