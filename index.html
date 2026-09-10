@@ -2309,6 +2309,16 @@
                                 <input id="participant-name" name="participantName" type="text" placeholder="Enter your name" required>
                             </div>
 
+                            <div id="member-1-field" class="form-field full-width" hidden>
+                                <label id="member-1-label" for="member-1">Team Member 1 Name</label>
+                                <input id="member-1" name="member1" type="text" placeholder="Enter team member 1's name" disabled>
+                            </div>
+
+                            <div id="member-2-field" class="form-field full-width" hidden>
+                                <label id="member-2-label" for="member-2">Team Member 2 Name (Optional)</label>
+                                <input id="member-2" name="member2" type="text" placeholder="Enter team member 2's name (optional)" disabled>
+                            </div>
+
                             <div class="form-field">
                                 <label for="department">Department</label>
                                 <input id="department" name="department" type="text" value="IT" placeholder="e.g. IT" required>
@@ -2360,6 +2370,18 @@
                                         <button class="custom-select-option" type="button" role="option" data-year="4th Year">4th Year</button>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div id="phone-field" class="form-field full-width" hidden>
+                                <label for="phone">Phone Number</label>
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="tel"
+                                    placeholder="Enter your 10-digit phone number"
+                                    autocomplete="tel"
+                                    disabled
+                                >
                             </div>
 
                             <div class="form-field full-width">
@@ -2428,6 +2450,14 @@
         const teamName = document.getElementById('team-name');
         const participantNameLabel = document.getElementById('participant-name-label');
         const participantName = document.getElementById('participant-name');
+        const member1Field = document.getElementById('member-1-field');
+        const member1Label = document.getElementById('member-1-label');
+        const member1 = document.getElementById('member-1');
+        const member2Field = document.getElementById('member-2-field');
+        const member2Label = document.getElementById('member-2-label');
+        const member2 = document.getElementById('member-2');
+        const phoneField = document.getElementById('phone-field');
+        const phone = document.getElementById('phone');
         const registrationForm = document.getElementById('registration-form');
         const registrationMessage = document.getElementById('registration-message');
         const formSubmit = registrationForm.querySelector('.form-submit');
@@ -2510,7 +2540,10 @@
 
         eventTabs.forEach((tab) => {
             tab.addEventListener('click', () => {
-                const isChallenge = tab.dataset.event === 'Video Editing' || tab.dataset.event === 'Poster Designing';
+                const eventName = tab.dataset.event;
+                const isVideoEditing = eventName === 'Video Editing';
+                const isPosterDesigning = eventName === 'Poster Designing';
+                const isChallenge = isVideoEditing || isPosterDesigning;
 
                 eventTabs.forEach((eventTab) => {
                     const isSelected = eventTab === tab;
@@ -2518,9 +2551,9 @@
                     eventTab.setAttribute('aria-selected', String(isSelected));
                 });
 
-                selectedEvent.value = tab.dataset.event;
+                selectedEvent.value = eventName;
 
-                // Team name is required for Video Editing and Poster Designing (teams up to 3)
+                // Team name is required for challenge events
                 teamNameField.hidden = !isChallenge;
                 teamName.required = isChallenge;
                 teamName.disabled = !isChallenge;
@@ -2528,13 +2561,45 @@
                     teamName.value = '';
                 }
 
-                // Dynamic label and placeholder switching
+                // Dynamic label and placeholder switching for Leader / Participant
                 if (isChallenge) {
                     participantNameLabel.textContent = 'Team Leader Name';
                     participantName.placeholder = "Enter team leader's name";
                 } else {
                     participantNameLabel.textContent = 'Name';
                     participantName.placeholder = 'Enter your name';
+                }
+
+                // Team Member 1 (visible & required for challenge events)
+                member1Field.hidden = !isChallenge;
+                member1.required = isChallenge;
+                member1.disabled = !isChallenge;
+                if (isChallenge) {
+                    if (isVideoEditing) {
+                        member1Label.textContent = 'Team Member 1 Name';
+                        member1.placeholder = "Enter team member 1's name";
+                    } else {
+                        member1Label.textContent = 'Team Member Name';
+                        member1.placeholder = "Enter team member's name";
+                    }
+                } else {
+                    member1.value = '';
+                }
+
+                // Team Member 2 (visible only for Video Editing - up to 3 members, optional)
+                member2Field.hidden = !isVideoEditing;
+                member2.required = false;
+                member2.disabled = !isVideoEditing;
+                if (!isVideoEditing) {
+                    member2.value = '';
+                }
+
+                // Phone Number (visible & required for challenge events)
+                phoneField.hidden = !isChallenge;
+                phone.required = isChallenge;
+                phone.disabled = !isChallenge;
+                if (!isChallenge) {
+                    phone.value = '';
                 }
 
                 registrationMessage.classList.remove('is-visible');
@@ -2563,6 +2628,16 @@
                 return;
             }
 
+            if (phone.required && !phone.disabled) {
+                const cleanPhone = phone.value.trim().replace(/[\s-]/g, '');
+                if (!/^\d{10}$/.test(cleanPhone)) {
+                    registrationMessage.textContent = 'Please enter a valid 10-digit phone number.';
+                    registrationMessage.classList.add('is-visible');
+                    phone.focus();
+                    return;
+                }
+            }
+
             if (GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')) {
                 registrationMessage.textContent =
                     'The registration backend is not connected yet. Add your Google Apps Script Web App URL to activate submissions.';
@@ -2574,9 +2649,12 @@
                 event: selectedEvent.value,
                 teamName: teamName.disabled ? '' : teamName.value.trim(),
                 participantName: participantName.value.trim(),
+                member1: member1.disabled ? '' : member1.value.trim(),
+                member2: member2.disabled ? '' : member2.value.trim(),
                 department: document.getElementById('department').value.trim(),
                 section: sectionInput.value,
                 year: yearInput.value,
+                phone: phone.disabled ? '' : phone.value.trim(),
                 email: document.getElementById('email').value.trim()
             };
 

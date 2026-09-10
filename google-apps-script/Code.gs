@@ -11,10 +11,13 @@ const HEADERS = [
   'Registration ID',
   'Event',
   'Team Name',
-  'Participant Name',
+  'Team Leader / Name',
+  'Team Member 1',
+  'Team Member 2',
   'Department',
   'Section',
   'Year',
+  'Phone Number',
   'Email'
 ];
 
@@ -53,9 +56,12 @@ function doPost(event) {
         data.event,
         data.teamName || '—',
         data.participantName,
+        data.member1 || '—',
+        data.member2 || '—',
         data.department,
         data.section,
         data.year,
+        data.phone || '—',
         data.email
       ]);
 
@@ -113,9 +119,12 @@ function validateAndNormalise_(payload) {
     event: event,
     teamName: clean_(payload.teamName),
     participantName: clean_(payload.participantName || payload.name),
+    member1: clean_(payload.member1),
+    member2: clean_(payload.member2),
     department: clean_(payload.department),
     section: clean_(payload.section),
     year: clean_(payload.year),
+    phone: clean_(payload.phone),
     email: email
   };
 
@@ -127,8 +136,17 @@ function validateAndNormalise_(payload) {
     throw new Error('Please complete every required field.');
   }
 
-  if ((data.event === 'Video Editing' || data.event === 'Poster Designing') && !data.teamName) {
-    throw new Error('Team Name is required for challenge registrations.');
+  const isChallenge = data.event === 'Video Editing' || data.event === 'Poster Designing';
+  if (isChallenge) {
+    if (!data.teamName) {
+      throw new Error('Team Name is required for challenge registrations.');
+    }
+    if (!data.member1) {
+      throw new Error('Team Member name is required for challenge registrations.');
+    }
+    if (!data.phone) {
+      throw new Error('Phone Number is required for challenge registrations.');
+    }
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {

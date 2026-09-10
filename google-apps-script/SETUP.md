@@ -10,6 +10,6 @@
 
 The `Registrations` tab contains these columns:
 
-`Timestamp | Registration ID | Event | Team Name | Participant Name | Department | Section | Year | Email`
+`Timestamp | Registration ID | Event | Team Name | Team Leader / Name | Team Member 1 | Team Member 2 | Department | Section | Year | Phone Number | Email`
 
 The backend uses a script lock and a case-insensitive email check, so an email can register only once—even if two form submissions happen at almost the same time.
