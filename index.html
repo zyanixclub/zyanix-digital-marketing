@@ -1100,6 +1100,31 @@
             box-shadow: 0 0 0 3px rgba(255,90,31,0.14);
         }
 
+        .form-field input.is-invalid {
+            border-color: #ff4d4f !important;
+            box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.25) !important;
+            animation: fieldShake 0.3s ease;
+        }
+
+        .form-field-error {
+            display: none;
+            color: #ff6b6b;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+
+        .form-field-error.is-visible {
+            display: block;
+        }
+
+        @keyframes fieldShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-4px); }
+            40%, 80% { transform: translateX(4px); }
+        }
+
         .form-submit {
             width: 100%;
             margin-top: 24px;
@@ -2302,6 +2327,7 @@
                             <div id="team-name-field" class="form-field full-width" hidden>
                                 <label for="team-name">Team Name</label>
                                 <input id="team-name" name="teamName" type="text" placeholder="Enter your team name" disabled>
+                                <div id="team-name-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                             <div class="form-field full-width">
@@ -2393,6 +2419,7 @@
                                     placeholder="Enter your email address"
                                     required
                                 >
+                                <div id="email-error" class="form-field-error" aria-live="polite"></div>
                             </div>
 
                         </div>
@@ -2480,6 +2507,32 @@
 
         const registrationForm = document.getElementById('registration-form');
         const registrationMessage = document.getElementById('registration-message');
+        const teamNameError = document.getElementById('team-name-error');
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+
+        function setFieldError(inputEl, errorEl, message) {
+            inputEl.classList.add('is-invalid');
+            errorEl.textContent = message;
+            errorEl.classList.add('is-visible');
+        }
+
+        function clearFieldError(inputEl, errorEl) {
+            inputEl.classList.remove('is-invalid');
+            errorEl.textContent = '';
+            errorEl.classList.remove('is-visible');
+        }
+
+        teamName.addEventListener('input', () => {
+            clearFieldError(teamName, teamNameError);
+            registrationMessage.classList.remove('is-visible');
+        });
+
+        emailInput.addEventListener('input', () => {
+            clearFieldError(emailInput, emailError);
+            registrationMessage.classList.remove('is-visible');
+        });
+
         const formSubmit = registrationForm.querySelector('.form-submit');
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHF-DFGSqfii1c2pKrB0YJdUGR993sU9C80Iy7yGmU26Q_g5bv-ES8e5KK0FlmJa3Q/exec';
         const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -2622,12 +2675,17 @@
                     phone.value = '';
                 }
 
+                clearFieldError(teamName, teamNameError);
+                clearFieldError(emailInput, emailError);
                 registrationMessage.classList.remove('is-visible');
             });
         });
 
         registrationForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+
+            clearFieldError(teamName, teamNameError);
+            clearFieldError(emailInput, emailError);
 
             if (!registrationForm.checkValidity()) {
                 registrationForm.reportValidity();
@@ -2681,8 +2739,7 @@
             };
 
             if (!EMAIL_PATTERN.test(payload.email.trim())) {
-                registrationMessage.textContent = 'Please enter a valid email address.';
-                registrationMessage.classList.add('is-visible');
+                setFieldError(emailInput, emailError, 'Please enter a valid email address.');
                 document.getElementById('email').focus();
                 return;
             }
@@ -2701,8 +2758,10 @@
 
                 if (!result.ok) {
                     if (result.code === 'duplicate_team_name' && !teamName.disabled) {
+                        setFieldError(teamName, teamNameError, result.message || 'This Team Name is already taken.');
                         teamName.focus();
                     } else if (result.code === 'duplicate_email') {
+                        setFieldError(emailInput, emailError, result.message || 'This email address has already been used to register.');
                         document.getElementById('email').focus();
                     }
                     throw new Error(result.message || 'Unable to submit your registration.');
@@ -2713,8 +2772,10 @@
                 registrationMessage.classList.add('is-visible');
                 formSubmit.textContent = 'Registration Confirmed';
             } catch (error) {
-                registrationMessage.textContent = error.message || 'Unable to connect to the registration service.';
-                registrationMessage.classList.add('is-visible');
+                if (!teamNameError.classList.contains('is-visible') && !emailError.classList.contains('is-visible')) {
+                    registrationMessage.textContent = error.message || 'Unable to connect to the registration service.';
+                    registrationMessage.classList.add('is-visible');
+                }
                 formSubmit.disabled = false;
                 formSubmit.textContent = 'Submit Registration →';
             }
